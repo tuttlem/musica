@@ -34,6 +34,10 @@ class Interval(object):
       '''Returns a string representing this interval'''
       return self.short_name
 
+   def __str__(self):
+      '''Returns a string repsenting this interval'''
+      return self.short_name
+
 class Intervals(object):
    '''Defines the supported range of intervals'''
 
