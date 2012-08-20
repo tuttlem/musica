@@ -35,13 +35,20 @@ class Scale(object):
       adj_dist = []
 
       # build a list of distances
-      for i in range(7):
+      for i in range(len(self.intervals)):
+         # find the interval index for this iteration with
+         # respect to the requested mode
          step_idx = (i + (mode - 1)) % len(self.intervals)
+
+         # pull out the distance for the interval and adjust
+         # it by the distance of the mother-key's step
          step_dist = self.intervals[step_idx].distance - key_dist
 
+         # constrain the distance to within the chromatic scale
          if step_dist < 0:
             step_dist += 12
 
+         # get the interval and add it to the list
          adj_dist.append(Intervals.by_distance(step_dist))
 
       # create the scale and send it out
@@ -54,9 +61,9 @@ class Scale(object):
 
 # build basic building-block scales that all other modes
 # will be built from
-major_scale  = Scale('Ionian', [peru, maj2, maj3, per4, per5, maj6, maj7])
+major_scale  = Scale('Ionian',         [peru, maj2, maj3, per4, per5, maj6, maj7])
 hminor_scale = Scale('Harmonic Minor', [peru, maj2, min3, per4, per5, min6, maj7])
-
+mminor_scale = Scale('Melodic Minor',  [peru, maj2, min3, per4, per5, maj6, maj7])
 
 class Scales(object):
    '''Defines a collection of scales'''
@@ -76,7 +83,15 @@ class Scales(object):
       hminor_scale.make_mode('Dorian #4', 4),
       hminor_scale.make_mode('Phrygian Dominant', 5),
       hminor_scale.make_mode('Lydian #2', 6),
-      hminor_scale.make_mode('Super Locrian', 7)
+      hminor_scale.make_mode('Super Locrian', 7),
+
+      mminor_scale,
+      mminor_scale.make_mode('Dorian b2', 2),
+      mminor_scale.make_mode('Lydian #5', 3),
+      mminor_scale.make_mode('Lydian Dominant', 4),
+      mminor_scale.make_mode('Mixolydian b6', 5),
+      mminor_scale.make_mode('Aeolian b5', 6),
+      mminor_scale.make_mode('Altered Scale', 7)
    ]
 
 
