@@ -1,5 +1,6 @@
 
 from intervals import Intervals
+from notes import Notes
 
 # read intervals out for reference
 peru = Intervals.by_distance(0)
@@ -25,7 +26,17 @@ class Scale(object):
 
    def voice(self, key):
       '''Voices this scale in a particular key'''
-      pass
+      # get a chromatic list of notes
+      chromatic = Scales.make_chromatic(key)
+      steps = []
+
+      for i in self.intervals:
+         # get the note
+         note = chromatic[i.distance]
+         # add it to the list
+         steps.append({ 'note':note, 'interval':i })
+
+      return steps
 
    def make_mode(self, n, mode):
       '''Re-arranges the intervals of this scale into a new scale'''
@@ -94,4 +105,15 @@ class Scales(object):
       mminor_scale.make_mode('Altered Scale', 7)
    ]
 
+   @staticmethod
+   def make_chromatic(key):
+      '''Makes a chromatic array of notes starting from the specified key'''
+      # pre-calculate the forward and backward ranges
+      # needed to build the chromatic scale
+      fr = range(key.distance, 12)
+      br = range(0, key.distance)
 
+      notes = [Notes.by_distance(i) for i in fr]
+      notes.extend([Notes.by_distance(i) for i in br])
+
+      return notes
